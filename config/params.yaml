@@ -1,0 +1,97 @@
+base:
+  project: Wafer-Quality-Project
+  random_state: 42
+  target_col: Output
+
+data_source:
+  batch_files: Training_Batch_Files
+
+
+data_preparation:
+  training_db: Training.db
+  training_db_dir: Training_Database
+  schema_training: config/schema_training.json
+  good_validated_raw_dir: data/Training_Raw_files_validated/Good_raw
+  bad_validated_raw_dir: data/Training_Raw_files_validated/Bad_raw
+  TrainingArchiveBadData: data/TrainingArchiveBadData
+  Training_FileFromDB: data/Training_FileFromDB
+  master_csv: master.csv
+
+pred_data_preparation:
+  prediction_db: Prediction.db
+  prediction_db_dir: Prediction_Database
+  schema_prediction: config/schema_prediction.json
+  good_validated_raw_dir: data/Prediction_Raw_files_validated/Good_raw
+  bad_validated_raw_dir: data/Prediction_Raw_files_validated/Bad_raw
+  PredictionArchiveBadData: data/PredictionArchiveBadData
+  Prediction_FileFromDB: data/Prediction_FileFromDB
+  master_csv: master.csv
+  Prediction_Output_File: Prediction_Output_File/Predictions.csv
+
+
+saved_models:
+  model_dir: models
+
+data_preprocessing:
+  preprocessed_data_dir: data/preprocessed_data
+  null_values_csv: null_values.csv
+
+  preprocessed_data_dir_pred: data/preprocessed_data_pred
+
+
+  KNNImputer: 
+    n_neighbors: 3 
+    weights: uniform
+    missing_values: nan
+
+  KMeansClustering:
+    init: k-means++
+    n_cluster_max: 11
+    KneeLocator: 
+      curve: convex
+      direction: decreasing
+    
+
+artifacts_dir: 
+  general: general
+  mlflow: mlflow_artifacts
+
+
+training:
+  random_forest:
+    cv: 5
+    verbose: 3
+    param_grid:
+      n_estimators: 
+        - 10
+        - 50
+        - 100
+        - 130 
+      criterion: 
+        - gini
+        - entropy
+      max_depth: 
+        - 2
+        - 4
+      max_features: 
+        - auto
+        - log2
+  xg_boost:
+    cv: 5
+    verbose: 3
+    param_grid:
+      learning_rate: 
+        - 0.5
+        - 0.1
+        - 0.01
+        - 0.001
+      max_depth: 
+        - 3
+        - 5
+        - 10
+        - 20
+      n_estimators: 
+        - 10
+        - 50
+        - 100
+        - 200
