@@ -18,7 +18,7 @@ def main():
             "This project requires Python {}. Found: Python {}".format(
                 required_major, sys.version))
     else:
-        print(">>> Development environment passes all tests!")
+        print(">>> Development environment passes all tests correctly !")
 
 
 if __name__ == '__main__':
